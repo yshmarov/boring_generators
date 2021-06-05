@@ -8,26 +8,7 @@ module Boring
 
       def add_bootstrap_package
         say "Adding bootstrap packages", :green
-        run "yarn add bootstrap jquery popper.js"
-      end
-
-      def add_jquery_plugin_provider_to_webpack_environment
-        say "Adding jQuery and popper JS plugin in the webpack", :green
-        if File.exist?("config/webpack/environment.js")
-          insert_into_file "config/webpack/environment.js", <<~RUBY, after: /@rails\/webpacker.*\n/
-            const webpack = require("webpack")
-
-            environment.plugins.append("Provide", new webpack.ProvidePlugin({
-              $: 'jquery',
-              jQuery: 'jquery',
-              Popper: ['popper.js', 'default']
-            }))
-          RUBY
-        else
-          say <<~WARNING, :red
-            ERROR: Looks like the webpacker installation is incomplete. Could not find environment.js in config/webpack.
-          WARNING
-        end
+        run "yarn add bootstrap popper.js"
       end
 
       def add_or_import_stylesheet_for_bootstrap
